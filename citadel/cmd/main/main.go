@@ -4,12 +4,14 @@ import (
 	books "citadel/api/books"
 	healthz "citadel/api/healthz"
 	homepage "citadel/api/homepage"
+	prom "citadel/api/metrics"
 	record "citadel/api/record"
 	database "citadel/pkg/db"
 	"log"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -22,9 +24,13 @@ func main() {
 		log.Println("✅ App initialized")
 	}()
 
+	// Database
 	database.CreateDb()
 	database.CreateTable()
 	router := gin.Default()
+
+	// Prometheus
+	router.Use(prom.PrometheusMiddleware())
 
 	// Trusted Proxy
 	router.SetTrustedProxies([]string{"127.0.0.1"})
@@ -41,6 +47,9 @@ func main() {
 	// Health Check
 	router.GET("/healthz", healthz.Healthz)  // Browsers use GET by default.
 	router.HEAD("/healthz", healthz.Healthz) // Curl uses HEAD if you do something like: curl -I http://localhost:3000/healthz
+
+	// Metrics
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Server
 	err := router.Run(":3000")
