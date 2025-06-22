@@ -12,12 +12,12 @@ import (
 
 var initialized atomic.Bool
 
-// Call this function when the app finishes initialization
+// Function to call when the app finishes initialization
 func MarkInitialized() {
 	initialized.Store(true)
 }
 
-// You can check this flag inside your health check
+// Flag to check inside health check
 func IsInitialized() bool {
 	return initialized.Load()
 }
@@ -29,7 +29,7 @@ func Healthz(c *gin.Context) {
 		return
 	}
 
-	// Open a connection to MySQL
+	// Checking MySql connectivity
 	db, err := sql.Open("mysql", data.Dsn())
 	if err != nil {
 		log.Printf("Unable to open db connection to quer db \n")
