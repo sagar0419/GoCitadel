@@ -32,7 +32,7 @@ func Healthz(c *gin.Context) {
 	// Checking MySql connectivity
 	db, err := sql.Open("mysql", data.Dsn())
 	if err != nil {
-		log.Printf("Unable to open db connection to quer db \n")
+		log.Printf("Unable to open db connection to query db \n")
 		c.String(http.StatusInternalServerError, "Database connection failed")
 		panic(err)
 	}
@@ -40,7 +40,7 @@ func Healthz(c *gin.Context) {
 
 	// Ping the database to check connectivity
 	if err := db.Ping(); err != nil {
-		log.Fatalf("Cannot connect to database: %v", err)
+		log.Fatalf("Database is unreachable: %v", err)
 		c.String(http.StatusServiceUnavailable, "Database unreachable")
 		panic(err)
 	}
