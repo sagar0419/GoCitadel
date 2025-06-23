@@ -21,7 +21,7 @@ func main() {
 
 		// After all startup is complete
 		healthz.MarkInitialized()
-		log.Println("✅ App initialized")
+		log.Println("*** App initialized ***")
 	}()
 
 	// Database
