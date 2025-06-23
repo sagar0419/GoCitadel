@@ -8,6 +8,6 @@ This webapp API has following things written into it: -
 * Exposing API metrics using Prometheus on `/metrics` endpoint.
 * A health check endpoint that display the app status initializing / ready /database connection status on `/healthz` endpoint.
 
-To run Mysql use the following command: -
+To run Mysql in a container you can use the following command: -
 
 `docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -d mysql:latest`
